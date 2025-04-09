@@ -1,5 +1,4 @@
 extends Area2D
-
 signal hit
 
 @export var speed = 400
@@ -7,7 +6,7 @@ var screen_size
 
 func _ready():
 	screen_size = get_viewport_rect().size
-	hide()
+pass
 
 func _process(delta):
 	var velocity = Vector2.ZERO
@@ -45,7 +44,7 @@ func _process(delta):
 		$AnimatedSprite2D.flip_v = velocity.y > 0
 
 
-func _on_body_entered(body: Node2D) -> void:
+func _on_body_entered(_body: Node2D) -> void:
 	pass
 	hide()
 	hit.emit()

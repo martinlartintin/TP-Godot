@@ -1,0 +1,46 @@
+extends Node
+
+@export var mob_scene: PackedScene
+var score
+
+
+func _on_mob_timer_timeout():
+	var mob = mob_scene.instantiate()
+
+	var MobSpawnLocation = $MobPath/MobSpawnLocation
+	MobSpawnLocation.progress_ratio = randf()
+
+	mob.position = MobSpawnLocation.position
+
+	var direction = MobSpawnLocation.rotation + PI / 2
+
+	direction += randf_range(-PI / 4, PI / 4)
+	mob.rotation = direction
+
+	var velocity = Vector2(randf_range(150.0, 250.0), 0.0)
+	mob.linear_velocity = velocity.rotated(direction)
+
+	add_child(mob)
+
+func Game_over() -> void:
+	pass 
+	$ScoreTimer.stop()
+	$MobTimer.stop()
+
+func new_game():
+	score = 0
+	$Player.start($StartPosition.position)
+	$StartTimer.start()
+
+
+func _on_score_timer_timeout() -> void:
+	pass
+	score += 1
+
+func _on_start_timer_timeout() -> void:
+	pass
+	$MobTimer.start()
+	$ScoreTimer.start()
+
+func _ready():
+	new_game()
